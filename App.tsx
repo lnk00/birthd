@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 import { Colors } from "./constants/Colors";
 import { Calendar, DateData } from "react-native-calendars";
 
@@ -13,6 +13,10 @@ export default function App() {
 
   const marked = useMemo(() => {
     return {
+      "2023-02-05": { marked: true, dotColor: Colors.yellow, activeOpacity: 0 },
+      "2023-02-10": { marked: true, dotColor: Colors.yellow, activeOpacity: 0 },
+      "2023-02-21": { marked: true, dotColor: Colors.yellow, activeOpacity: 0 },
+      "2023-02-25": { marked: true, dotColor: Colors.yellow, activeOpacity: 0 },
       [selectedDay]: {
         selected: true,
         disableTouchEvent: true,
@@ -25,8 +29,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <SafeAreaView>
+        <Text style={styles.monthLabel}>February</Text>
         <Calendar
-          style={styles.calendar}
           theme={{
             backgroundColor: Colors.darkBlue,
             calendarBackground: Colors.darkBlue,
@@ -62,6 +66,17 @@ export default function App() {
                 borderRadius: 38,
               },
             },
+            // @ts-ignore
+            "stylesheet.dot": {
+              dot: {
+                width: 6,
+                height: 6,
+                borderRadius: 6,
+                marginLeft: 15,
+                marginTop: 4,
+                opacity: 0,
+              },
+            },
           }}
           hideArrows={true}
           enableSwipeMonths={true}
@@ -80,5 +95,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.darkBlue,
     height: "100%",
   },
-  calendar: {},
+  monthLabel: {
+    marginLeft: 18,
+    color: Colors.white,
+    fontWeight: 800,
+    fontSize: 24,
+    marginBottom: 18,
+    marginTop: 12,
+  },
 });
