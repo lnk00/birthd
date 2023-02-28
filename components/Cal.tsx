@@ -1,19 +1,16 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Colors } from "./../constants/Colors";
 import { Calendar, DateData } from "react-native-calendars";
+import { useAtom } from "jotai";
+import { selectedDateAtom } from "../State";
+import dayjs from "dayjs";
 
 export default function App() {
-  const [selectedDay, setSelectedDay] = useState("2023-02-15");
-  const [selectedMonth, setSelectedMonth] = useState(
-    new Date().toLocaleString("default", { month: "long" })
-  );
+  const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
 
   const dayPressed = (date: DateData) => {
-    setSelectedMonth(
-      new Date(date.dateString).toLocaleString("default", { month: "long" })
-    );
-    setSelectedDay(date.dateString);
+    setSelectedDate(new Date(date.dateString));
   };
 
   const marked = useMemo(() => {
@@ -22,18 +19,20 @@ export default function App() {
       "2023-02-10": { marked: true, dotColor: Colors.yellow },
       "2023-02-21": { marked: true, dotColor: Colors.yellow },
       "2023-02-25": { marked: true, dotColor: Colors.yellow },
-      [selectedDay]: {
+      [dayjs(selectedDate).utc().format("YYYY-MM-DD")]: {
         selected: true,
         disableTouchEvent: true,
         selectedColor: Colors.grey,
         selectedTextColor: Colors.white,
       },
     };
-  }, [selectedDay]);
+  }, [selectedDate]);
 
   return (
     <View>
-      <Text style={styles.month}>{selectedMonth}</Text>
+      <Text style={styles.month}>
+        {dayjs(selectedDate).utc().format("MMMM")}
+      </Text>
       <Calendar
         theme={{
           backgroundColor: Colors.darkBlue,
@@ -42,7 +41,7 @@ export default function App() {
           textDisabledColor: Colors.darkGrey,
           selectedDayBackgroundColor: Colors.grey,
           todayBackgroundColor: Colors.darkBlue,
-          todayTextColor: Colors.white,
+          todayTextColor: Colors.darkGrey,
           // @ts-ignore
           "stylesheet.calendar.header": {
             monthText: {
@@ -96,7 +95,7 @@ const styles = StyleSheet.create({
   month: {
     marginLeft: 18,
     color: Colors.white,
-    fontWeight: 800,
+    fontWeight: "800",
     fontSize: 24,
     marginBottom: 18,
     marginTop: 12,
