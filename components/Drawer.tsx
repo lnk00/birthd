@@ -9,12 +9,12 @@ export default function Darwer() {
   const selectedDate = useAtomValue(selectedDateAtom);
 
   return (
-      <View style={styles.drawer}>
-        <Text style={styles.date}>
-          {dayjs(selectedDate).utc().format("dddd, MMM DD")}
-        </Text>
-        <Text style={styles.label}>Birthdays</Text>
-      </View>
+    <View style={styles.drawer}>
+      <Text style={styles.date}>
+        {dayjs(selectedDate).utc().format("dddd, MMM DD")}
+      </Text>
+      <Text style={styles.label}>Birthdays</Text>
+    </View>
   );
 }
 
